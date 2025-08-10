@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Costos Energéticos - Caribe Colombiano</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>💡 Simulador de Costos Energéticos</h1>
+            <p class="subtitle">Descubre cuánto podrías ahorrar con energías renovables en el Caribe</p>
+        </header>
+
+        <main class="main-content">
+            <form id="energyForm" class="calculator-form">
+                <div class="form-group">
+                    <label for="municipio">🏙️ Selecciona tu municipio:</label>
+                    <select id="municipio" name="municipio" required>
+                        <option value="">-- Selecciona un municipio --</option>
+                        <option value="riohacha">Riohacha</option>
+                        <option value="barrancas">Barrancas</option>
+                        <option value="valledupar">Valledupar</option>
+                        <option value="santa_marta">Santa Marta</option>
+                        <option value="soledad">Soledad</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="consumo_actual">⚡ Consumo mensual actual (kWh):</label>
+                    <input type="number" id="consumo_actual" name="consumo_actual" 
+                           placeholder="Ingresa tu consumo en kWh" min="0" step="0.1">
+                    <small class="help-text">Si no conoces tu consumo, se usará el promedio del municipio</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="costo_actual">💰 Costo actual mensual (pesos):</label>
+                    <input type="number" id="costo_actual" name="costo_actual" 
+                           placeholder="Costo mensual de tu factura" min="0" step="100">
+                    <small class="help-text">Si no conoces el costo, se calculará automáticamente</small>
+                </div>
+
+                <button type="submit" class="calculate-btn">🧮 Calcular Ahorro</button>
+            </form>
+
+            <div id="results" class="results-container" style="display: none;">
+                <h2>📊 Resultados de tu Simulación</h2>
+                
+                <div class="results-grid">
+                    <div class="result-card current">
+                        <h3>Situación Actual</h3>
+                        <div class="value" id="current-cost">$0</div>
+                        <p>Costo mensual actual</p>
+                    </div>
+                    
+                    <div class="result-card renewable">
+                        <h3>Con Energías Renovables</h3>
+                        <div class="value" id="renewable-cost">$0</div>
+                        <p>Costo mensual estimado</p>
+                    </div>
+                    
+                    <div class="result-card savings">
+                        <h3>Ahorro Mensual</h3>
+                        <div class="value" id="monthly-savings">$0</div>
+                        <p>Ahorro estimado: <span id="savings-percentage">0%</span></p>
+                    </div>
+                </div>
+
+                <div class="annual-projection">
+                    <h3>📈 Proyección Anual</h3>
+                    <div class="annual-stats">
+                        <div class="stat">
+                            <span class="label">Ahorro anual estimado:</span>
+                            <span class="value" id="annual-savings">$0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Reducción de emisiones:</span>
+                            <span class="value" id="co2-reduction">0 kg CO₂</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="municipality-info">
+                    <h3>ℹ️ Información del Municipio</h3>
+                    <div id="municipality-details"></div>
+                </div>
+
+                <button id="reset-btn" class="reset-btn">🔄 Nueva Simulación</button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>💚 Contribuyendo a un Caribe más sostenible y con menores costos energéticos</p>
+        </footer>
+    </div>
+
+    <script src="../js/calculator.js"></script>
+</body>
+</html>

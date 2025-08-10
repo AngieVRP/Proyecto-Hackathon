@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simulador Ahorro Energías Renovables</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    margin: 0; padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+  .pantalla {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    padding: 2rem;
+    overflow-y: auto;
+    background-color: #eee;
+    flex-direction: column;
+  }
+  .activo {
+    display: flex;
+  }
+
+  /* Bienvenida */
+  #bienvenida {
+    background-color: #0077cc;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: right;
+    padding-right: 3rem;
+  }
+  #btn-ir-calculadora {
+    margin-left: auto;
+  }
+
+  /* Calculadora */
+  #calculadora {
+    background-color: #f5f5f5;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  /* Resultado */
+  #resultado {
+    background-color: #d0f0d0;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  /* Botones */
+  button {
+    background-color: white;
+    color: #0077cc;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 6px;
+  }
+
+  /* Formularios */
+  label, select, input[type=number] {
+    font-size: 1rem;
+  }
+  input[type=number], select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+  }
+  input[type=submit] {
+    width: auto;
+  }
+
+  /* Botón regresar calculadora a bienvenida */
+  #btn-regresar-calculadora {
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+</style>
+</head>
+<body>
+
+<!-- Bienvenida -->
+<div id="bienvenida" class="pantalla activo">
+  <h1>¡Bienvenido!</h1>
+  <p>Presiona el botón para ir a la calculadora</p>
+  <button id="btn-ir-calculadora">➡ Ir a calculadora</button>
+</div>
+
+<!-- Calculadora -->
+<div id="calculadora" class="pantalla">
+  <h1>Calculadora de ahorro energético</h1>
+  <form id="form-calculadora">
+    <label for="consumo">Ingrese su consumo actual (kWh):</label>
+    <input type="number" id="consumo" name="consumo" min="0" step="any" required />
+
+    <label for="opcion">Departamento:</label>
+    <select id="opcion" name="opcion" required>
+      <option value="">-- Selecciona --</option>
+      <option value="guajira">Guajira</option>
+      <option value="atlantico">Atlántico</option>
+      <option value="valledupar">Valledupar</option>
+    </select>
+
+    <input type="submit" value="Calcular ahorro" />
+  </form>
+
+  <button id="btn-regresar-calculadora">⬅ Regresar a bienvenida</button>
+</div>
+
+<!-- Resultado -->
+<div id="resultado" class="pantalla">
+  <h2>Resultado</h2>
+  <div id="texto-resultado"></div>
+  <div style="margin-top:1rem;">
+    <h3>¿Sabías que?</h3>
+    <p>El uso de energías renovables como la solar y la eólica puede ayudarte a reducir costos y cuidar el medio ambiente.</p>
+  </div>
+  <button id="btn-regresar">⬅ Regresar a calculadora</button>
+</div>
+
+<script>
+  // Referencias a pantallas y botones
+  const bienvenida = document.getElementById('bienvenida');
+  const calculadora = document.getElementById('calculadora');
+  const resultado = document.getElementById('resultado');
+  const btnIrCalculadora = document.getElementById('btn-ir-calculadora');
+  const btnRegresarCalc = document.getElementById('btn-regresar-calculadora');
+  const btnRegresar = document.getElementById('btn-regresar');
+  const formCalculadora = document.getElementById('form-calculadora');
+  const textoResultado = document.getElementById('texto-resultado');
+
+  // Mostrar una pantalla y ocultar las otras
+  function mostrarPantalla(pantallaMostrar) {
+    [bienvenida, calculadora, resultado].forEach(pantalla => {
+      pantalla.classList.remove('activo');
+    });
+    pantallaMostrar.classList.add('activo');
+
+    // Scroll vertical solo permitido en resultado
+    if (pantallaMostrar === resultado) {
+      resultado.style.overflowY = 'auto';
+      document.body.style.overflow = 'hidden';
+    } else {
+      resultado.style.overflowY = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  // Botón ir a calculadora desde bienvenida
+  btnIrCalculadora.addEventListener('click', () => {
+    mostrarPantalla(calculadora);
+  });
+
+  // Botón regresar a bienvenida desde calculadora
+  btnRegresarCalc.addEventListener('click', () => {
+    mostrarPantalla(bienvenida);
+  });
+
+  // Botón regresar a calculadora desde resultado
+  btnRegresar.addEventListener('click', () => {
+    mostrarPantalla(calculadora);
+  });
+
+  // Simulación simple de ahorro para la calculadora
+  // Ejemplo: Ahorro = consumo actual * % de ahorro predeterminado según departamento
+  const porcentajeAhorroPorDepto = {
+    guajira: 0.25,
+    atlantico: 0.20,
+    valledupar: 0.18,
+  };
+
+  formCalculadora.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const consumo = parseFloat(formCalculadora.consumo.value);
+    const departamento = formCalculadora.opcion.value;
+
+    if (!porcentajeAhorroPorDepto.hasOwnProperty(departamento)) {
+      alert("Por favor selecciona un departamento válido.");
+      return;
+    }
+
+    const porcentajeAhorro = porcentajeAhorroPorDepto[departamento];
+    const ahorroEstimado = consumo * porcentajeAhorro;
+
+    textoResultado.innerHTML = `
+      <p><strong>Consumo actual:</strong> ${consumo.toFixed(2)} kWh</p>
+      <p><strong>Departamento:</strong> ${departamento.charAt(0).toUpperCase() + departamento.slice(1)}</p>
+      <p><strong>Porcentaje estimado de ahorro:</strong> ${(porcentajeAhorro*100).toFixed(0)}%</p>
+      <p><strong>Ahorro estimado en kWh:</strong> ${ahorroEstimado.toFixed(2)} kWh</p>
+      <p><strong>Ahorro estimado en costo:</strong> $${(ahorroEstimado * 500).toLocaleString()} COP (suponiendo tarifa de 500 COP/kWh)</p>
+    `;
+
+    mostrarPantalla(resultado);
+  });
+
+  // Inicializamos mostrando bienvenida
+  mostrarPantalla(bienvenida);
+</script>
+
+</body>
+</html>
