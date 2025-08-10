@@ -53,6 +53,63 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Auto-completar campos cuando se selecciona municipio
     setupAutoComplete();
+
+    // Lógica para deshabilitar campos mutuamente
+    const consumoInput = document.getElementById('consumo_actual');
+    const costoInput = document.getElementById('costo_actual');
+
+
+    consumoInput.addEventListener('input', function() {
+        const municipio = document.getElementById('municipio').value;
+        if (this.value && this.value.length > 0 && parseFloat(this.value) > 0 && municipio && municipiosData[municipio]) {
+            // Calcular costo estimado
+            const costoEstimado = parseFloat(this.value) * municipiosData[municipio].tarifa_kwh;
+            costoInput.value = '';
+            costoInput.placeholder = `Estimado: ${formatCurrency(costoEstimado)}`;
+            costoInput.disabled = true;
+            costoInput.classList.add('input-disabled');
+        } else {
+            costoInput.disabled = false;
+            costoInput.classList.remove('input-disabled');
+            // Restaurar placeholder
+            if (municipio && municipiosData[municipio]) {
+                costoInput.placeholder = `Promedio ${municipiosData[municipio].nombre}: ${formatCurrency(municipiosData[municipio].costo_actual_pesos)}`;
+            } else {
+                costoInput.placeholder = 'Costo mensual de tu factura';
+            }
+        }
+    });
+
+    costoInput.addEventListener('input', function() {
+        const municipio = document.getElementById('municipio').value;
+        if (this.value && this.value.length > 0 && parseFloat(this.value) > 0 && municipio && municipiosData[municipio]) {
+            // Calcular consumo estimado
+            const consumoEstimado = parseFloat(this.value) / municipiosData[municipio].tarifa_kwh;
+            consumoInput.value = '';
+            consumoInput.placeholder = `Estimado: ${consumoEstimado.toFixed(1)} kWh`;
+            consumoInput.disabled = true;
+            consumoInput.classList.add('input-disabled');
+        } else {
+            consumoInput.disabled = false;
+            consumoInput.classList.remove('input-disabled');
+            // Restaurar placeholder
+            if (municipio && municipiosData[municipio]) {
+                consumoInput.placeholder = `Promedio ${municipiosData[municipio].nombre}: ${municipiosData[municipio].consumo_promedio_kwh} kWh`;
+            } else {
+                consumoInput.placeholder = 'Ingresa tu consumo en kWh';
+            }
+        }
+    });
+
+    // Al resetear, habilitar ambos campos
+    calculatorForm.addEventListener('reset', function() {
+        setTimeout(() => {
+            consumoInput.disabled = false;
+            costoInput.disabled = false;
+            consumoInput.classList.remove('input-disabled');
+            costoInput.classList.remove('input-disabled');
+        }, 0);
+    });
 });
 
 // Manejar envío del formulario

@@ -1,3 +1,11 @@
+/* Efecto visual para inputs deshabilitados por lógica de calculadora */
+.input-disabled {
+    background-color: #f0f0f0 !important;
+    color: #888 !important;
+    opacity: 0.6;
+    transition: background 0.3s, color 0.3s, opacity 0.3s;
+    cursor: not-allowed;
+}
 /* Reset y configuración base */
 * {
     margin: 0;
