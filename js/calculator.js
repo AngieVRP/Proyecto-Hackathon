@@ -1,3 +1,19 @@
+// Mensajes de beneficio para energías renovables
+const benefitMessages = [
+    "🌞 Las energías renovables ayudan a reducir tu huella de carbono y proteger el planeta.",
+    "💸 Pasarte a energías renovables puede disminuir significativamente tus costos mensuales.",
+    "⚡ Con energías limpias, aseguras un suministro más estable y menos dependiente de combustibles fósiles.",
+    "🌱 Contribuyes al desarrollo sostenible de tu región y fomentas empleos verdes.",
+    "🔋 Aprovecha los recursos naturales del Caribe para generar tu propia energía y ser más independiente."
+];
+
+function showBenefitMessage() {
+    const randomIndex = Math.floor(Math.random() * benefitMessages.length);
+    const benefitSection = document.getElementById('benefit-message');
+    if (benefitSection) {
+        benefitSection.textContent = benefitMessages[randomIndex];
+    }
+}
 // Dataset de municipios del Caribe colombiano
 const municipiosData = {
     riohacha: {
@@ -48,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Event listeners
     calculatorForm.addEventListener('submit', handleFormSubmit);
-    document.getElementById('reset-btn').addEventListener('click', resetCalculator);
     document.getElementById('municipio').addEventListener('change', handleMunicipioChange);
     
     // Auto-completar campos cuando se selecciona municipio
@@ -120,7 +135,10 @@ function handleFormSubmit(event) {
         const formData = getFormData();
         const results = calculateSavings(formData);
         displayResults(results, formData);
-        
+
+        // Mostrar mensaje de beneficio después de calcular
+        showBenefitMessage();
+
         // Scroll suave a los resultados
         resultsContainer.scrollIntoView({ 
             behavior: 'smooth',
@@ -211,7 +229,6 @@ function displayResults(results, formData) {
     
     // Proyección anual
     document.getElementById('annual-savings').textContent = formatCurrency(results.ahorroAnual);
-    document.getElementById('co2-reduction').textContent = `${Math.round(results.co2Reducido)} kg CO₂`;
     
     // Información del municipio
     displayMunicipalityInfo(municipioData, results);
@@ -292,22 +309,6 @@ function showMunicipioInfo(data) {
     console.log(`Ahorro estimado: ${data.ahorro_estimado_porcentaje}%`);
 }
 
-// Resetear calculadora
-function resetCalculator() {
-    calculatorForm.reset();
-    resultsContainer.style.display = 'none';
-    clearErrors();
-    
-    // Restaurar placeholders originales
-    document.getElementById('consumo_actual').placeholder = 'Ingresa tu consumo en kWh';
-    document.getElementById('costo_actual').placeholder = 'Costo mensual de tu factura';
-    
-    // Scroll suave al formulario
-    calculatorForm.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-    });
-}
 
 // Utilidades
 function formatCurrency(amount) {

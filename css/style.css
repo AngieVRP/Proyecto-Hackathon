@@ -284,20 +284,7 @@ body {
     color: #2d3748;
 }
 
-/* Botón de reset */
-.reset-btn {
-    display: block;
-    margin: 0 auto;
-    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+
 
 .reset-btn:hover {
     transform: translateY(-2px);
@@ -403,4 +390,13 @@ body {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+} 
+.renewable-benefit-message{
+    display: block;
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
 }
