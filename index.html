@@ -26,14 +26,17 @@
             <form id="energyForm" class="calculator-form">
                 <div class="form-group">
                     <label for="municipio"> Selecciona tu municipio:</label>
-                    <select id="municipio" name="municipio" required>
-                        <option value="">-- Selecciona un municipio --</option>
-                        <option value="riohacha">Riohacha</option>
-                        <option value="barrancas">Barrancas</option>
-                        <option value="valledupar">Valledupar</option>
-                        <option value="santa_marta">Santa Marta</option>
-                        <option value="soledad">Soledad</option>
-                    </select>
+                    <div class="municipio-container">
+                        <select id="municipio" name="municipio" required>
+                            <option value="">-- Selecciona un municipio --</option>
+                            <option value="riohacha">Riohacha</option>
+                            <option value="barrancas">Barrancas</option>
+                            <option value="valledupar">Valledupar</option>
+                            <option value="santa_marta">Santa Marta</option>
+                            <option value="soledad">Soledad</option>
+                        </select>
+                        <button type="button" id="add-municipio-btn" class="add-municipio-btn">+</button>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -102,8 +105,59 @@
                     <div id="municipality-details"></div>
                 </div>
 
+                <!-- Botón de contacto -->
+                <div class="contact-section" id="contact-section" style="display: none;">
+                    <div class="contact-container">
+                        <h3>¿Interesado en implementar energías renovables?</h3>
+                        <p>Contáctanos para recibir una consulta personalizada y dar el siguiente paso hacia la sostenibilidad energética.</p>
+                        <button type="button" id="contact-btn" class="contact-btn">
+                            <i class="contact-icon">📞</i>
+                            Contactar Ahora
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </main>
+
+        <!-- Modal para agregar municipio -->
+        <div id="municipio-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Agregar Nuevo Municipio</h3>
+                    <button type="button" class="close-btn" id="close-modal">&times;</button>
+                </div>
+                <form id="new-municipio-form" class="new-municipio-form">
+                    <div class="form-group">
+                        <label for="nuevo-nombre">Nombre del municipio:</label>
+                        <input type="text" id="nuevo-nombre" name="nuevo-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevo-consumo">Consumo promedio (kWh):</label>
+                        <input type="number" id="nuevo-consumo" name="nuevo-consumo" min="1" step="1" placeholder="Ej: 350">
+                        <div id="preview-consumo" class="calculation-preview" style="display: none;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevo-costo">Costo promedio (COP):</label>
+                        <input type="number" id="nuevo-costo" name="nuevo-costo" min="1000" step="1000" placeholder="Ej: 175000">
+                        <div id="preview-costo" class="calculation-preview" style="display: none;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevo-ahorro">Porcentaje de ahorro estimado (%):</label>
+                        <input type="number" id="nuevo-ahorro" name="nuevo-ahorro" min="1" max="50" step="1" required placeholder="Ej: 15">
+                    </div>
+                    <div class="form-group">
+                        <label for="nueva-tarifa">Tarifa por kWh (COP):</label>
+                        <input type="number" id="nueva-tarifa" name="nueva-tarifa" min="100" step="50" value="500" placeholder="Ej: 500">
+                        <div id="preview-tarifa" class="calculation-preview" style="display: none;"></div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" id="cancel-btn" class="cancel-btn">Cancelar</button>
+                        <button type="submit" class="save-btn">Guardar Municipio</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <footer class="footer">
             <p>&copy; GreeenCoders 2025. Contribuyendo a un Caribe más sostenible y con menores costos energéticos</p>

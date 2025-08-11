@@ -69,8 +69,17 @@ document.addEventListener('DOMContentLoaded', function() {
     calculatorForm.addEventListener('submit', handleFormSubmit);
     document.getElementById('municipio').addEventListener('change', handleMunicipioChange);
     
+    // Botón de contacto
+    const contactBtn = document.getElementById('contact-btn');
+    if (contactBtn) {
+        contactBtn.addEventListener('click', handleContactClick);
+    }
+    
     // Auto-completar campos cuando se selecciona municipio
     setupAutoComplete();
+
+    // Modal para agregar municipio
+    setupMunicipioModal();
 
     // Lógica para deshabilitar campos mutuamente
     const consumoInput = document.getElementById('consumo_actual');
@@ -319,6 +328,11 @@ function displayResults(results, formData) {
     
     // Mostrar contenedor de resultados
     resultsContainer.style.display = 'block';
+    
+    // Mostrar botón de contacto después de un breve retraso
+    setTimeout(() => {
+        showContactSection();
+    }, 800);
 }
 
 // Mostrar información del municipio
@@ -372,6 +386,300 @@ function setupAutoComplete() {
             costoInput.placeholder = `Promedio ${data.nombre}: ${formatCurrency(data.costo_actual_pesos)}`;
         }
     });
+}
+
+/**
+ * Configura el modal para agregar nuevos municipios.
+ * Maneja eventos de abrir, cerrar y guardar municipio.
+ */
+function setupMunicipioModal() {
+    const addBtn = document.getElementById('add-municipio-btn');
+    const modal = document.getElementById('municipio-modal');
+    const closeBtn = document.getElementById('close-modal');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const form = document.getElementById('new-municipio-form');
+
+    // Configurar lógica de exclusión mutua para los 3 campos
+    setupModalFieldLogic();
+
+    // Abrir modal
+    addBtn.addEventListener('click', function() {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Cerrar modal
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        form.reset();
+        // Rehabilitar todos los campos al cerrar
+        enableAllModalFields();
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Cerrar al hacer clic fuera del modal
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Guardar nuevo municipio
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (validateModalForm()) {
+            saveNewMunicipio();
+            closeModal();
+        }
+    });
+}
+
+/**
+ * Configura la lógica de exclusión mutua en el modal.
+ * Solo permite llenar 2 de los 3 campos: consumo, costo, tarifa.
+ * Muestra previsualización temporal del valor calculado.
+ */
+function setupModalFieldLogic() {
+    const consumoInput = document.getElementById('nuevo-consumo');
+    const costoInput = document.getElementById('nuevo-costo');
+    const tarifaInput = document.getElementById('nueva-tarifa');
+
+    const previewConsumo = document.getElementById('preview-consumo');
+    const previewCosto = document.getElementById('preview-costo');
+    const previewTarifa = document.getElementById('preview-tarifa');
+
+    function updateFieldStates() {
+        const filledFields = [
+            consumoInput.value ? 'consumo' : null,
+            costoInput.value ? 'costo' : null,
+            tarifaInput.value ? 'tarifa' : null
+        ].filter(field => field !== null);
+
+        // Ocultar todas las previsualizaciones
+        hideAllPreviews();
+
+        // Si ya hay 2 campos llenos, deshabilitar el tercero y mostrar previsualización
+        if (filledFields.length >= 2) {
+            const consumo = parseInt(consumoInput.value) || 0;
+            const costo = parseInt(costoInput.value) || 0;
+            const tarifa = parseInt(tarifaInput.value) || 0;
+
+            if (!consumoInput.value && costo && tarifa) {
+                // Calcular y mostrar consumo
+                const calculatedConsumo = Math.round(costo / tarifa);
+                showCalculationPreview(previewConsumo, 
+                    `Consumo calculado: ${calculatedConsumo} kWh`,
+                    `${costo} ÷ ${tarifa} = ${calculatedConsumo}`);
+                consumoInput.disabled = true;
+                consumoInput.classList.add('input-disabled');
+            }
+            
+            if (!costoInput.value && consumo && tarifa) {
+                // Calcular y mostrar costo
+                const calculatedCosto = consumo * tarifa;
+                showCalculationPreview(previewCosto, 
+                    `Costo calculado: ${formatCurrency(calculatedCosto)}`,
+                    `${consumo} × ${tarifa} = ${calculatedCosto}`);
+                costoInput.disabled = true;
+                costoInput.classList.add('input-disabled');
+            }
+            
+            if (!tarifaInput.value && consumo && costo) {
+                // Calcular y mostrar tarifa
+                const calculatedTarifa = Math.round(costo / consumo);
+                showCalculationPreview(previewTarifa, 
+                    `Tarifa calculada: $${calculatedTarifa}/kWh`,
+                    `${costo} ÷ ${consumo} = ${calculatedTarifa}`);
+                tarifaInput.disabled = true;
+                tarifaInput.classList.add('input-disabled');
+            }
+        } else {
+            // Habilitar todos los campos
+            enableAllModalFields();
+        }
+    }
+
+    function hideAllPreviews() {
+        [previewConsumo, previewCosto, previewTarifa].forEach(preview => {
+            preview.style.display = 'none';
+        });
+    }
+
+    function showCalculationPreview(previewElement, mainText, formulaText) {
+        previewElement.innerHTML = `
+            <div>${mainText}</div>
+            <div class="formula">${formulaText}</div>
+        `;
+        previewElement.style.display = 'block';
+        
+        // Ocultar después de 5 segundos
+        setTimeout(() => {
+            if (previewElement.style.display === 'block') {
+                previewElement.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    previewElement.style.display = 'none';
+                    previewElement.style.animation = '';
+                }, 300);
+            }
+        }, 5000);
+    }
+
+    consumoInput.addEventListener('input', updateFieldStates);
+    costoInput.addEventListener('input', updateFieldStates);
+    tarifaInput.addEventListener('input', updateFieldStates);
+}
+
+/**
+ * Habilita todos los campos del modal y oculta las previsualizaciones.
+ */
+function enableAllModalFields() {
+    const fields = ['nuevo-consumo', 'nuevo-costo', 'nueva-tarifa'];
+    const previews = ['preview-consumo', 'preview-costo', 'preview-tarifa'];
+    
+    fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        field.disabled = false;
+        field.classList.remove('input-disabled');
+    });
+
+    previews.forEach(previewId => {
+        const preview = document.getElementById(previewId);
+        if (preview) {
+            preview.style.display = 'none';
+        }
+    });
+}
+
+/**
+ * Valida que se hayan llenado exactamente 2 de los 3 campos principales.
+ * @returns {boolean} true si es válido, false si no
+ */
+function validateModalForm() {
+    const consumo = document.getElementById('nuevo-consumo').value;
+    const costo = document.getElementById('nuevo-costo').value;
+    const tarifa = document.getElementById('nueva-tarifa').value;
+
+    const filledFields = [consumo, costo, tarifa].filter(value => value && value.trim() !== '');
+
+    if (filledFields.length !== 2) {
+        alert('Debes llenar exactamente 2 de los 3 campos: Consumo, Costo o Tarifa.');
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Guarda un nuevo municipio en el dataset y lo agrega al select.
+ * Calcula automáticamente el tercer valor basado en los dos campos llenos.
+ */
+function saveNewMunicipio() {
+    const nombre = document.getElementById('nuevo-nombre').value.trim();
+    const consumoValue = document.getElementById('nuevo-consumo').value;
+    const costoValue = document.getElementById('nuevo-costo').value;
+    const tarifaValue = document.getElementById('nueva-tarifa').value;
+    const ahorro = parseInt(document.getElementById('nuevo-ahorro').value);
+
+    // Determinar qué valores están llenos
+    const consumo = consumoValue ? parseInt(consumoValue) : null;
+    const costo = costoValue ? parseInt(costoValue) : null;
+    const tarifa = tarifaValue ? parseInt(tarifaValue) : null;
+
+    // Calcular el valor faltante
+    let consumoFinal, costoFinal, tarifaFinal;
+
+    if (consumo && costo && !tarifa) {
+        // Calcular tarifa: tarifa = costo / consumo
+        consumoFinal = consumo;
+        costoFinal = costo;
+        tarifaFinal = Math.round(costo / consumo);
+    } else if (consumo && tarifa && !costo) {
+        // Calcular costo: costo = consumo * tarifa
+        consumoFinal = consumo;
+        tarifaFinal = tarifa;
+        costoFinal = consumo * tarifa;
+    } else if (costo && tarifa && !consumo) {
+        // Calcular consumo: consumo = costo / tarifa
+        costoFinal = costo;
+        tarifaFinal = tarifa;
+        consumoFinal = Math.round(costo / tarifa);
+    } else {
+        alert('Error en la configuración de campos.');
+        return;
+    }
+
+    // Crear ID único para el municipio
+    const municipioId = nombre.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+
+    // Validar que no exista ya
+    if (municipiosData[municipioId]) {
+        alert('Este municipio ya existe en la lista.');
+        return;
+    }
+
+    // Agregar al dataset
+    municipiosData[municipioId] = {
+        nombre: nombre,
+        consumo_promedio_kwh: consumoFinal,
+        costo_actual_pesos: costoFinal,
+        ahorro_estimado_porcentaje: ahorro,
+        tarifa_kwh: tarifaFinal
+    };
+
+    // Agregar al select
+    const select = document.getElementById('municipio');
+    const option = document.createElement('option');
+    option.value = municipioId;
+    option.textContent = nombre;
+    select.appendChild(option);
+
+    // Seleccionar el nuevo municipio
+    select.value = municipioId;
+
+    // Disparar evento de cambio para actualizar placeholders
+    select.dispatchEvent(new Event('change'));
+
+    // Mostrar mensaje de éxito con valores calculados
+    const calculatedField = !consumoValue ? `Consumo: ${consumoFinal} kWh` : 
+                          !costoValue ? `Costo: ${formatCurrency(costoFinal)}` : 
+                          `Tarifa: $${tarifaFinal}/kWh`;
+    
+    showSuccessMessage(`Municipio "${nombre}" agregado exitosamente. ${calculatedField} calculado automáticamente.`);
+}
+
+/**
+ * Muestra un mensaje de éxito temporal.
+ * @param {string} message - Mensaje a mostrar
+ */
+function showSuccessMessage(message) {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-message';
+    successDiv.textContent = message;
+    successDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #48bb78;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        z-index: 10001;
+        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        font-weight: 600;
+        animation: slideIn 0.3s ease-out;
+    `;
+
+    document.body.appendChild(successDiv);
+
+    setTimeout(() => {
+        successDiv.style.animation = 'slideOut 0.3s ease-in forwards';
+        setTimeout(() => {
+            document.body.removeChild(successDiv);
+        }, 300);
+    }, 3000);
 }
 
 // Manejar cambio de municipio
@@ -495,6 +803,35 @@ function showLoadingState() {
 }
 
 // Agregar efectos de hover dinámicos
+
+/**
+ * Muestra la sección de contacto con animación.
+ */
+function showContactSection() {
+    const contactSection = document.getElementById('contact-section');
+    if (contactSection) {
+        contactSection.style.display = 'block';
+        
+        // Scroll suave hacia la sección de contacto
+        setTimeout(() => {
+            contactSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }, 300);
+    }
+}
+
+/**
+ * Maneja el clic del botón de contacto.
+ * Abre modal o redirige según la preferencia.
+ */
+function handleContactClick() {
+    const phoneNumber = "+000000000000"; // Cambiar por el número real
+    const message = encodeURIComponent("Hola! Me interesa obtener más información sobre energías renovables después de hacer la simulación en su página web.");
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+}
 
 /**
  * Agrega efectos de hover dinámicos a las tarjetas de resultados.

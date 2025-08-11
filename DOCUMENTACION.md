@@ -6,7 +6,7 @@ El **Simulador de Costos Energéticos para el Caribe Colombiano** es una herrami
 
 ## 🌟 Objetivo Principal
 
-Reducir las tarifas de energía y concientizar a la población sobre los beneficios de las energías renovables, proporcionando una herramienta simple y visual que permita:
+Concientizar a la población sobre los beneficios de las energías renovables, proporcionando una herramienta simple y visual que permita:
 
 - Simular ahorros económicos potenciales
 - Educar sobre energías limpias

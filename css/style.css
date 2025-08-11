@@ -1,3 +1,223 @@
+/* Previsualización de cálculos en modal */
+.calculation-preview {
+    background: linear-gradient(135deg, #e6fffa 0%, #f0fff4 100%);
+    border: 2px solid #38a169;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: #2f855a;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeInPreview 0.3s ease-out;
+    box-shadow: 0 2px 8px rgba(56, 161, 105, 0.15);
+}
+
+.calculation-preview .formula {
+    font-size: 0.85rem;
+    color: #68d391;
+    font-weight: 500;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+@keyframes fadeInPreview {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Botón para agregar municipio */
+.municipio-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.municipio-container select {
+    flex: 1;
+}
+
+.add-municipio-btn {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+}
+
+.add-municipio-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+/* Modal para agregar municipio */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.new-municipio-form {
+    padding: 25px;
+}
+
+.new-municipio-form .form-group {
+    margin-bottom: 20px;
+}
+
+.new-municipio-form label {
+    display: block;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.new-municipio-form input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.new-municipio-form input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.cancel-btn, .save-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.cancel-btn:hover {
+    background: #cbd5e0;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+}
+
+
+
 /* Tooltip matemático estilo Symbolab */
 .math-tooltip {
     position: fixed;
@@ -339,6 +559,98 @@ body img {
     box-shadow: 0 6px 20px rgba(237, 137, 54, 0.3);
 }
 
+/* Sección de contacto */
+.contact-section {
+    margin-top: 40px;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.contact-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.contact-container h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-container p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    opacity: 0.9;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-btn {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
+    position: relative;
+    z-index: 2;
+    min-width: 200px;
+    justify-content: center;
+}
+
+.contact-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(72, 187, 120, 0.4);
+    background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+}
+
+.contact-btn:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.contact-icon {
+    font-size: 1.3rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
 /* Footer */
 .footer {
     text-align: center;
@@ -442,6 +754,30 @@ body img {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 } 
+
+/* Animaciones para mensajes de éxito */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
 .renewable-benefit-message{
     display: block;
     color: #ffffff;
