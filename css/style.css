@@ -175,6 +175,14 @@ body {
     border-top-color: #3182ce;
 }
 
+.result-card.consumption {
+    border-top-color: #e53e3e;
+}
+
+.result-card.kwh-saved {
+    border-top-color: #48bb78;
+}
+
 .result-card h3 {
     color: #2d3748;
     margin-bottom: 15px;
@@ -197,6 +205,14 @@ body {
 
 .result-card.savings .value {
     color: #3182ce;
+}
+
+.result-card.consumption .value {
+    color: #e53e3e;
+}
+
+.result-card.kwh-saved .value {
+    color: #48bb78;
 }
 
 .result-card p {

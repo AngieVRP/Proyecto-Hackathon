@@ -9,14 +9,14 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>💡 Simulador de Costos Energéticos</h1>
+            <h1> Simulador de Costos Energéticos</h1>
             <p class="subtitle">Descubre cuánto podrías ahorrar con energías renovables en el Caribe</p>
         </header>
 
         <main class="main-content">
             <form id="energyForm" class="calculator-form">
                 <div class="form-group">
-                    <label for="municipio">🏙️ Selecciona tu municipio:</label>
+                    <label for="municipio"> Selecciona tu municipio:</label>
                     <select id="municipio" name="municipio" required>
                         <option value="">-- Selecciona un municipio --</option>
                         <option value="riohacha">Riohacha</option>
@@ -28,20 +28,20 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="consumo_actual">⚡ Consumo mensual actual (kWh):</label>
+                    <label for="consumo_actual"> Consumo mensual actual (kWh):</label>
                     <input type="number" id="consumo_actual" name="consumo_actual" 
                            placeholder="Ingresa tu consumo en kWh" min="0" step="0.1">
                     <small class="help-text">Si no conoces tu consumo, se usará el promedio del municipio</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="costo_actual">💰 Costo actual mensual (pesos):</label>
+                    <label for="costo_actual"> Costo actual mensual (pesos):</label>
                     <input type="number" id="costo_actual" name="costo_actual" 
                            placeholder="Costo mensual de tu factura" min="0" step="100">
                     <small class="help-text">Si no conoces el costo, se calculará automáticamente</small>
                 </div>
 
-                <button type="submit" class="calculate-btn">🧮 Calcular Ahorro</button>
+                <button type="submit" class="calculate-btn"> Calcular Ahorro</button>
             </form>
 
             <div id="results" class="results-container" style="display: none;">
@@ -65,10 +65,20 @@
                         <div class="value" id="monthly-savings">$0</div>
                         <p>Ahorro estimado: <span id="savings-percentage">0%</span></p>
                     </div>
+                    <div class="result-card consumption">
+                        <h3>Tu Consumo</h3>
+                        <div class="value" id="user-consumption">0 kWh</div>
+                        <p>Consumo mensual estimado</p>
+                    </div>
+                    <div class="result-card kwh-saved">
+                        <h3>kWh Ahorrados</h3>
+                        <div class="value" id="kwh-saved">0 kWh</div>
+                        <p>Ahorro mensual estimado</p>
+                    </div>
                 </div>
 
                 <div class="annual-projection">
-                    <h3>📈 Proyección Anual</h3>
+                    <h3> Proyección Anual</h3>
                     <div class="annual-stats">
                         <div class="stat">
                             <span class="label">Ahorro anual estimado:</span>
@@ -78,7 +88,7 @@
                 </div>
 
                 <div class="municipality-info">
-                    <h3>ℹ️ Información del Municipio</h3>
+                    <h3>ℹInformación del Municipio</h3>
                     <div id="municipality-details"></div>
                 </div>
 

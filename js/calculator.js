@@ -226,6 +226,8 @@ function displayResults(results, formData) {
     document.getElementById('renewable-cost').textContent = formatCurrency(results.costoConRenovables);
     document.getElementById('monthly-savings').textContent = formatCurrency(results.ahorroMensual);
     document.getElementById('savings-percentage').textContent = `${results.porcentajeAhorro}%`;
+    document.getElementById('user-consumption').textContent = `${results.consumoFinal} kWh`;
+    document.getElementById('kwh-saved').textContent = `${Math.round(results.kwhAhorrados)} kWh`;
     
     // Proyección anual
     document.getElementById('annual-savings').textContent = formatCurrency(results.ahorroAnual);
@@ -259,14 +261,7 @@ function displayMunicipalityInfo(municipioData, results) {
                 <span class="label">Potencial de ahorro</span>
                 <span class="value">${municipioData.ahorro_estimado_porcentaje}%</span>
             </div>
-            <div class="municipality-stat">
-                <span class="label">Tu consumo</span>
-                <span class="value">${results.consumoFinal} kWh</span>
-            </div>
-            <div class="municipality-stat">
-                <span class="label">kWh ahorrados/mes</span>
-                <span class="value">${Math.round(results.kwhAhorrados)} kWh</span>
-            </div>
+            
         </div>
     `;
 }
