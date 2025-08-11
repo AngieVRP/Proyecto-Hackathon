@@ -1,13 +1,11 @@
-// Mensajes de beneficio para energías renovables
-const benefitMessages = [
-    "🌞 Las energías renovables ayudan a reducir tu huella de carbono y proteger el planeta.",
-    "💸 Pasarte a energías renovables puede disminuir significativamente tus costos mensuales.",
-    "⚡ Con energías limpias, aseguras un suministro más estable y menos dependiente de combustibles fósiles.",
-    "🌱 Contribuyes al desarrollo sostenible de tu región y fomentas empleos verdes.",
-    "🔋 Aprovecha los recursos naturales del Caribe para generar tu propia energía y ser más independiente."
-];
 
+
+/**
+ * Muestra un mensaje aleatorio de beneficios de energías renovables en la sección correspondiente.
+ * Se ejecuta después de calcular el ahorro.
+ */
 function showBenefitMessage() {
+
     const randomIndex = Math.floor(Math.random() * benefitMessages.length);
     const benefitSection = document.getElementById('benefit-message');
     if (benefitSection) {
@@ -58,6 +56,11 @@ let calculatorForm;
 let resultsContainer;
 
 // Inicialización cuando se carga el DOM
+
+/**
+ * Inicializa el formulario, listeners y lógica de exclusión mutua de campos.
+ * Configura placeholders y efectos visuales.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     calculatorForm = document.getElementById('energyForm');
     resultsContainer = document.getElementById('results');
@@ -128,6 +131,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Manejar envío del formulario
+/**
+ * Maneja el envío del formulario principal.
+ * Valida, obtiene datos, calcula resultados y muestra los resultados y mensaje de beneficio.
+ * @param {Event} event - Evento de submit del formulario
+ */
 function handleFormSubmit(event) {
     event.preventDefault();
     
@@ -148,6 +156,11 @@ function handleFormSubmit(event) {
 }
 
 // Validar formulario
+/**
+ * Valida que el municipio haya sido seleccionado.
+ * Muestra error si no se selecciona.
+ * @returns {boolean} true si es válido, false si no
+ */
 function validateForm() {
     const municipio = document.getElementById('municipio').value;
     
@@ -161,6 +174,11 @@ function validateForm() {
 }
 
 // Obtener datos del formulario
+/**
+ * Extrae y procesa los datos del formulario.
+ * Calcula consumo estimado si solo hay costo, y viceversa.
+ * @returns {Object} Objeto con datos del formulario y estimaciones
+ */
 function getFormData() {
     const municipio = document.getElementById('municipio').value;
     const consumoInput = document.getElementById('consumo_actual');
@@ -182,6 +200,12 @@ function getFormData() {
 }
 
 // Calcular ahorros
+/**
+ * Calcula los ahorros y resultados principales de la simulación.
+ * Prioriza datos del usuario, calcula kWh ahorrados y proyección anual.
+ * @param {Object} formData - Datos del formulario y estimaciones
+ * @returns {Object} Resultados de la simulación
+ */
 function calculateSavings(formData) {
     const { municipioData, consumoActual, costoActual, consumoEstimado } = formData;
     // Determinar consumo a usar (ingresado por usuario, estimado por costo, o promedio del municipio)
@@ -212,9 +236,8 @@ function calculateSavings(formData) {
     // Proyección anual
     const ahorroAnual = ahorroMensual * 12;
 
-    // Calcular reducción de CO2 (estimación: 0.5 kg CO2 por kWh ahorrado)
-    const kwhAhorrados = (consumoFinal * porcentajeAhorro) / 100;
-    const co2Reducido = kwhAhorrados * 0.5 * 12; // kg CO2 por año
+        // Calcular kWh ahorrados
+        const kwhAhorrados = (consumoFinal * porcentajeAhorro) / 100;
 
     return {
         consumoFinal: consumoFinal,
@@ -223,12 +246,17 @@ function calculateSavings(formData) {
         ahorroMensual: ahorroMensual,
         ahorroAnual: ahorroAnual,
         porcentajeAhorro: porcentajeAhorro,
-        co2Reducido: co2Reducido,
         kwhAhorrados: kwhAhorrados
     };
 }
 
 // Mostrar resultados
+/**
+ * Actualiza la interfaz con los resultados calculados.
+ * Muestra los valores en las tarjetas y la información del municipio.
+ * @param {Object} results - Resultados de la simulación
+ * @param {Object} formData - Datos del formulario
+ */
 function displayResults(results, formData) {
     const { municipioData } = formData;
     
@@ -238,7 +266,7 @@ function displayResults(results, formData) {
     document.getElementById('monthly-savings').textContent = formatCurrency(results.ahorroMensual);
     document.getElementById('savings-percentage').textContent = `${results.porcentajeAhorro}%`;
     document.getElementById('user-consumption').textContent = `${results.consumoFinal} kWh`;
-    document.getElementById('kwh-saved').textContent = `${Math.round(results.kwhAhorrados)} kWh`;
+        document.getElementById('kwh-saved').textContent = `${Math.round(results.kwhAhorrados)} kWh`;
     
     // Proyección anual
     document.getElementById('annual-savings').textContent = formatCurrency(results.ahorroAnual);
@@ -251,6 +279,11 @@ function displayResults(results, formData) {
 }
 
 // Mostrar información del municipio
+/**
+ * Muestra la información detallada del municipio seleccionado en la interfaz.
+ * @param {Object} municipioData - Datos del municipio
+ * @param {Object} results - Resultados de la simulación
+ */
 function displayMunicipalityInfo(municipioData, results) {
     const municipalityDetails = document.getElementById('municipality-details');
     
@@ -278,6 +311,10 @@ function displayMunicipalityInfo(municipioData, results) {
 }
 
 // Configurar auto-completado
+/**
+ * Configura el autocompletado de placeholders según el municipio seleccionado.
+ * Actualiza los campos de consumo y costo con valores promedio.
+ */
 function setupAutoComplete() {
     document.getElementById('municipio').addEventListener('change', function() {
         const municipio = this.value;
@@ -295,6 +332,11 @@ function setupAutoComplete() {
 }
 
 // Manejar cambio de municipio
+/**
+ * Maneja el cambio de municipio en el formulario.
+ * Limpia errores y muestra información contextual.
+ * @param {Event} event - Evento de cambio en el select de municipio
+ */
 function handleMunicipioChange(event) {
     const municipio = event.target.value;
     
@@ -308,6 +350,10 @@ function handleMunicipioChange(event) {
 }
 
 // Mostrar información del municipio seleccionado
+/**
+ * Muestra información contextual del municipio seleccionado (solo en consola).
+ * @param {Object} data - Datos del municipio
+ */
 function showMunicipioInfo(data) {
     // Puedes agregar una notificación temporal o tooltip aquí
     console.log(`Municipio seleccionado: ${data.nombre}`);
@@ -317,6 +363,11 @@ function showMunicipioInfo(data) {
 
 
 // Utilidades
+/**
+ * Formatea un número como moneda en pesos colombianos.
+ * @param {number} amount - Cantidad a formatear
+ * @returns {string} Valor formateado en COP
+ */
 function formatCurrency(amount) {
     return new Intl.NumberFormat('es-CO', {
         style: 'currency',
@@ -326,6 +377,11 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
+/**
+ * Muestra un mensaje de error visual en el formulario para un campo específico.
+ * @param {string} fieldId - ID del campo
+ * @param {string} message - Mensaje de error
+ */
 function showError(fieldId, message) {
     const field = document.getElementById(fieldId);
     const formGroup = field.closest('.form-group');
@@ -346,6 +402,9 @@ function showError(fieldId, message) {
     field.focus();
 }
 
+/**
+ * Limpia todos los mensajes y estilos de error del formulario.
+ */
 function clearErrors() {
     document.querySelectorAll('.form-group.error').forEach(group => {
         group.classList.remove('error');
@@ -359,6 +418,11 @@ function clearErrors() {
 // Funciones adicionales para mejorar la experiencia de usuario
 
 // Validación en tiempo real
+
+/**
+ * Valida en tiempo real que los campos numéricos no sean negativos.
+ * Aplica corrección automática si se detecta un valor menor a 0.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     const inputs = document.querySelectorAll('input[type="number"]');
     
@@ -372,6 +436,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Animación de carga para el botón
+/**
+ * Muestra un estado de carga animado en el botón de calcular.
+ * Deshabilita el botón temporalmente.
+ */
 function showLoadingState() {
     const button = document.querySelector('.calculate-btn');
     button.classList.add('loading');
@@ -384,6 +452,10 @@ function showLoadingState() {
 }
 
 // Agregar efectos de hover dinámicos
+
+/**
+ * Agrega efectos de hover dinámicos a las tarjetas de resultados.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.result-card');
     
@@ -407,3 +479,11 @@ if (typeof module !== 'undefined' && module.exports) {
         validateForm
     };
 }
+// Mensajes de beneficio para energías renovables
+const benefitMessages = [
+    "🌞 Las energías renovables ayudan a reducir tu huella de carbono y proteger el planeta.",
+    "💸 Pasarte a energías renovables puede disminuir significativamente tus costos mensuales.",
+    "⚡ Con energías limpias, aseguras un suministro más estable y menos dependiente de combustibles fósiles.",
+    "🌱 Contribuyes al desarrollo sostenible de tu región y fomentas empleos verdes.",
+    "🔋 Aprovecha los recursos naturales del Caribe para generar tu propia energía y ser más independiente."
+];

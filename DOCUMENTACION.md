@@ -17,15 +17,14 @@ Reducir las tarifas de energía y concientizar a la población sobre los benefic
 
 ```
 Proyecto-Hackathon/
-├── README.md                 # Información general del proyecto
 ├── css/
-│   └── style.css            # Estilos y diseño visual
-├── html/
-│   ├── index.html           # Página principal
-│   └── main.html            # Página de la calculadora
+│   └── style.css            # Estilos y diseño visual con efectos avanzados
+├── img/
+│   └── img1.jpg             # Recursos visuales del proyecto
 ├── js/
-│   └── calculator.js        # Lógica de cálculos y funcionalidad
-└── DOCUMENTACION.md         # Este archivo
+│   └── calculator.js        # Lógica completa de cálculos y UX
+├── index.html               # Página principal integrada con calculadora
+└── DOCUMENTACION.md         # Este archivo de documentación
 ```
 
 ## 🚀 Funcionalidades Principales
@@ -37,7 +36,6 @@ Proyecto-Hackathon/
   - Costo promedio (pesos)
   - Tarifa por kWh
   - Porcentaje de ahorro estimado
-
 ### 2. **Input de Datos del Usuario**
 - **Consumo actual**: Campo para ingresar kWh mensuales
 - **Costo actual**: Campo para ingresar el valor de la factura
@@ -52,21 +50,32 @@ Proyecto-Hackathon/
 - **Situación Actual**: Costo mensual actual
 - **Con Energías Renovables**: Costo mensual estimado
 - **Ahorro Mensual**: Diferencia económica y porcentaje
-- **Tu Consumo**: kWh mensuales utilizados
-- **kWh Ahorrados**: Energía que se dejaría de consumir de la red
+- **Tu Consumo**: kWh mensuales utilizados (nuevo)
+- **kWh Ahorrados**: Energía que se dejaría de consumir de la red (nuevo)
 - **Proyección Anual**: Ahorro económico anualizado
-
 ### 5. **Información Educativa**
-- Datos del municipio seleccionado
-- Mensajes aleatorios sobre beneficios de energías renovables
-- Información sobre impacto ambiental
+- Datos detallados del municipio seleccionado
+- **Mensajes aleatorios dinámicos** sobre beneficios de energías renovables
+- Información sobre impacto ambiental estimado
+- **Sección de beneficios**: Se muestra solo después de calcular
 
 ## 💻 Tecnologías Utilizadas
 
-- **HTML5**: Estructura semántica y accesible
-- **CSS3**: Diseño responsivo y efectos visuales
-- **JavaScript Vanilla**: Lógica de negocio y manipulación del DOM
-- **Sin frameworks**: Aplicación liviana y de carga rápida
+- **HTML5**: Estructura semántica y accesible con elementos modernos
+- **CSS3 Avanzado**: 
+  - Grid Layout y Flexbox para diseño responsivo
+  - Gradientes y efectos glassmorphism
+  - Animaciones keyframe y transiciones
+  - Variables CSS para consistencia
+  - Media queries para responsividad
+- **JavaScript ES6+**: 
+  - Funciones arrow y destructuring
+  - Template literals para strings dinámicos
+  - Event listeners modernos
+  - Manipulación avanzada del DOM
+  - Formateo de moneda internacional
+- **Git**: Control de versiones integrado
+- **Sin frameworks**: Aplicación vanilla optimizada para rendimiento
 
 ## 📊 Dataset de Municipios
 
@@ -113,16 +122,27 @@ co2Reducido = kwhAhorrados * 0.5 * 12 // kg CO₂ por año
 ## 🎨 Características de UX/UI
 
 ### Diseño Visual:
-- **Colores**: Paleta verde (sostenibilidad) y azul (confianza)
-- **Iconos**: Emojis para mayor accesibilidad y comprensión
-- **Tarjetas**: Resultados organizados en cards visualmente atractivas
-- **Responsivo**: Adaptable a diferentes tamaños de pantalla
+- **Gradientes modernos**: Fondo con degradado púrpura-azul
+- **Glassmorphism**: Efectos de cristal con transparencias y blur
+- **Paleta de colores**: Verde (renovables), azul (información), rojo (situación actual)
+- **Tarjetas diferenciadas**: Cada tipo de resultado tiene bordes de colores específicos
+- **Tipografía moderna**: Segoe UI con diferentes pesos y tamaños
+- **Recursos visuales**: Carpeta `img/` con elementos gráficos de apoyo
 
-### Interactividad:
-- **Efectos hover**: Animaciones en tarjetas de resultados
-- **Transiciones suaves**: Scroll automático a resultados
-- **Feedback visual**: Estados deshabilitados con transparencia
-- **Validación en tiempo real**: Prevención de valores negativos
+### Interactividad Avanzada:
+- **Efectos hover sofisticados**: Elevación y escalado en tarjetas
+- **Transiciones fluidas**: Animaciones CSS con easing natural
+- **Estados visuales claros**: Campos deshabilitados con clase `.input-disabled`
+- **Feedback inmediato**: Placeholders dinámicos con valores calculados
+- **Scroll automático**: Navegación suave a resultados
+- **Validación visual**: Estados de error con colores y mensajes claros
+
+### Características Técnicas del CSS:
+- **Grid Layout responsivo**: Adaptación automática a diferentes pantallas
+- **Animaciones keyframe**: `fadeInUp` para aparición de resultados
+- **Loading states**: Botón con spinner animado durante procesamiento
+- **Backdrop filters**: Efectos de desenfoque en elementos flotantes
+- **Box shadows múltiples**: Profundidad visual en capas
 
 ### Accesibilidad:
 - **Labels descriptivos**: Cada campo tiene instrucciones claras
@@ -132,37 +152,51 @@ co2Reducido = kwhAhorrados * 0.5 * 12 // kg CO₂ por año
 
 ## 📱 Experiencia de Usuario
 
-### Flujo Típico:
-1. **Llegada**: Usuario ve la página principal con información clara
-2. **Selección**: Elige su municipio de la lista
-3. **Input**: Ingresa su consumo mensual O el costo de su factura
-4. **Visualización**: Ve automáticamente el campo contrario calculado
-5. **Cálculo**: Presiona "Calcular Ahorro"
-6. **Resultados**: Obtiene simulación completa con proyecciones
-7. **Educación**: Lee mensaje motivacional sobre energías renovables
+### Flujo Típico Actualizado:
+1. **Llegada**: Usuario accede a la página integrada con diseño moderno
+2. **Selección**: Elige su municipio (placeholder se actualiza automáticamente)
+3. **Input exclusivo**: Ingresa **solo** consumo mensual O costo de factura
+4. **Feedback visual**: Ve el campo contrario deshabilitado con valor estimado
+5. **Cálculo**: Presiona "Calcular Ahorro" con animación de loading
+6. **Resultados**: Obtiene simulación en 5 tarjetas diferenciadas por colores
+7. **Educación**: Aparece mensaje motivacional aleatorio sobre energías renovables
+8. **Exploración**: Puede revisar información detallada del municipio
 
-### Prevención de Errores:
-- Solo un campo de input activo a la vez
-- Validación de municipio obligatorio
-- Valores mínimos en campos numéricos
-- Limpieza automática de campos deshabilitados
+### Prevención de Errores Mejorada:
+- **Exclusión mutua estricta**: Solo un campo activo, el otro se limpia automáticamente
+- **Validación de municipio obligatorio** antes del cálculo
+- **Valores mínimos** en campos numéricos (no negativos)
+- **Limpieza automática** de campos deshabilitados
+- **Placeholders dinámicos** que muestran valores estimados en tiempo real
+- **Estados visuales claros** con clase `.input-disabled`
 
 ## 🔄 Funciones Principales del Código
 
-### `getFormData()`
-Extrae y procesa los datos del formulario, calculando valores estimados cuando es necesario.
+### `getFormData()` - Extracción Inteligente
+- Extrae datos del formulario
+- **Calcula consumo estimado** cuando solo hay costo ingresado
+- **Calcula costo estimado** cuando solo hay consumo ingresado
+- Retorna objeto con todos los valores necesarios para cálculos
 
-### `calculateSavings()`
-Aplica las fórmulas de ahorro basadas en los datos del municipio y la entrada del usuario.
+### `calculateSavings()` - Motor de Cálculos
+- Prioriza datos ingresados por usuario sobre promedios
+- Utiliza **consumo estimado** si el usuario ingresó solo costo
+- Aplica fórmulas específicas por municipio
 
-### `displayResults()`
-Actualiza la interfaz con los resultados calculados y formatea los valores monetarios.
+### `displayResults()` - Actualización Visual
+- Actualiza **5 tarjetas de resultados** diferenciadas
+- Formatea valores monetarios en pesos colombianos
+- Muestra consumo real vs. estimado
 
-### `showBenefitMessage()`
-Muestra mensajes educativos aleatorios sobre energías renovables.
+### `showBenefitMessage()` - Educación Dinámica
+- Selecciona mensaje aleatorio de array de beneficios
+- Se ejecuta **solo después** de presionar "Calcular Ahorro"
+- Estilizado con clase `.renewable-benefit-message`
 
-### Eventos de Input
-Manejan la lógica de exclusión mutua entre campos de consumo y costo.
+### Eventos de Input 
+- **Exclusión mutua**: Deshabilita campo opuesto al escribir
+- **Limpieza automática**: Borra contenido del campo deshabilitado
+- **Placeholders dinámicos**: Muestra valores estimados
 
 ## 🌱 Impacto Social
 
@@ -177,21 +211,6 @@ Manejan la lógica de exclusión mutua entre campos de consumo y costo.
 - Posibilidad de integrar datos reales de APIs
 - Extensión a otras regiones de Colombia
 - Integración con programas gubernamentales
-
-## 📈 Posibles Mejoras Futuras
-
-1. **Integración con APIs** de datos energéticos reales
-2. **Geolocalización** automática del usuario
-3. **Calculadora de inversión** para paneles solares
-4. **Comparador de proveedores** de energía renovable
-5. **Generación de reportes** en PDF
-6. **Sistema de alertas** de programas de subsidios
-7. **Versión móvil** nativa
-8. **Integración con redes sociales** para compartir resultados
-
-## 📞 Información de Contacto
-
-Este proyecto fue desarrollado como parte de un hackathon enfocado en soluciones sostenibles para el Caribe colombiano.
 
 ---
 
