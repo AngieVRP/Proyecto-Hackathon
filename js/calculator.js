@@ -254,6 +254,7 @@ function calculateSavings(formData) {
 /**
  * Actualiza la interfaz con los resultados calculados.
  * Muestra los valores en las tarjetas y la información del municipio.
+ * Además, configura tooltips matemáticos para cada resultado.
  * @param {Object} results - Resultados de la simulación
  * @param {Object} formData - Datos del formulario
  */
@@ -266,7 +267,49 @@ function displayResults(results, formData) {
     document.getElementById('monthly-savings').textContent = formatCurrency(results.ahorroMensual);
     document.getElementById('savings-percentage').textContent = `${results.porcentajeAhorro}%`;
     document.getElementById('user-consumption').textContent = `${results.consumoFinal} kWh`;
-        document.getElementById('kwh-saved').textContent = `${Math.round(results.kwhAhorrados)} kWh`;
+    document.getElementById('kwh-saved').textContent = `${Math.round(results.kwhAhorrados)} kWh`;
+
+    // Tooltips matemáticos estilo Symbolab
+    const municipio = formData.municipioData;
+    const consumo = results.consumoFinal;
+    const costo = results.costoActual;
+    const ahorro = results.ahorroMensual;
+    const porcentaje = results.porcentajeAhorro;
+    const costoRenovable = results.costoConRenovables;
+    const kwhAhorro = results.kwhAhorrados;
+
+    // Procesos matemáticos para cada tarjeta
+    const tooltips = {
+        'card-current': `Costo mensual actual = Consumo mensual × Tarifa\n${consumo} kWh × $${municipio.tarifa_kwh} = ${formatCurrency(consumo * municipio.tarifa_kwh)}`,
+        'card-renewable': `Costo con renovables = Costo actual - Ahorro mensual\n${formatCurrency(costo)} - ${formatCurrency(ahorro)} = ${formatCurrency(costoRenovable)}`,
+        'card-savings': `Ahorro mensual = Costo actual × %Ahorro\n${formatCurrency(costo)} × ${porcentaje}% = ${formatCurrency(ahorro)}`,
+        'card-consumption': `Consumo mensual considerado\n${consumo} kWh`,
+        'card-kwh-saved': `kWh ahorrados = Consumo × %Ahorro\n${consumo} × ${porcentaje}% = ${Math.round(kwhAhorro)} kWh`
+    };
+
+    Object.entries(tooltips).forEach(([id, text]) => {
+        const card = document.getElementById(id);
+        if (card) card.setAttribute('data-tooltip', text);
+    });
+
+    // Eventos para mostrar/ocultar el tooltip
+    const tooltip = document.getElementById('math-tooltip');
+    document.querySelectorAll('.result-card').forEach(card => {
+        card.addEventListener('mouseenter', function(e) {
+            const msg = card.getAttribute('data-tooltip');
+            if (msg) {
+                tooltip.innerText = msg;
+                tooltip.style.display = 'block';
+            }
+        });
+        card.addEventListener('mousemove', function(e) {
+            tooltip.style.left = (e.clientX + 18) + 'px';
+            tooltip.style.top = (e.clientY + 18) + 'px';
+        });
+        card.addEventListener('mouseleave', function() {
+            tooltip.style.display = 'none';
+        });
+    });
     
     // Proyección anual
     document.getElementById('annual-savings').textContent = formatCurrency(results.ahorroAnual);

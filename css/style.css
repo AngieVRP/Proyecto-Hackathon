@@ -1,3 +1,23 @@
+/* Tooltip matemático estilo Symbolab */
+.math-tooltip {
+    position: fixed;
+    z-index: 9999;
+    background: #fff;
+    color: #222;
+    border: 2px solid #3182ce;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(49,130,206,0.15);
+    padding: 18px 22px;
+    font-size: 1.1rem;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    min-width: 260px;
+    max-width: 350px;
+    pointer-events: none;
+    opacity: 0.97;
+    transition: opacity 0.2s;
+    white-space: pre-line;
+    text-align: left;
+}
 /* Efecto visual para inputs deshabilitados por lógica de calculadora */
 .input-disabled {
     background-color: #f0f0f0 !important;
@@ -12,6 +32,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,11 +53,11 @@ body img {
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
+    color: rgb(255, 255, 255);
     border-radius: 10px;
     font-family: Bebas Neue;
 }
 
-/* Header */
 .header {
     text-align: center;
     margin-bottom: 40px;
@@ -44,6 +65,7 @@ body img {
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Questrial', sans-serif;
 }
 
 .header h1 {
@@ -58,6 +80,7 @@ body img {
     color: #4a5568;
     font-weight: 300;
 }
+
 
 /* Formulario */
 .main-content {
@@ -231,7 +254,7 @@ body img {
 
 /* Proyección anual */
 .annual-projection {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 30%, #48bb78 100%);
     color: white;
     padding: 30px;
     border-radius: 15px;
@@ -319,18 +342,18 @@ body img {
 /* Footer */
 .footer {
     text-align: center;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
+    background: rgba(0, 0, 0, 0.267);
+    padding: 10px;
     border-radius: 15px;
-    margin-top: 30px;
-    color: 78C841;
+    margin-top: 10px;
+    
 }
 
 .footer p {
-    color: #4a5568;
     font-weight: 500;
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 15px;
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
 }
 
 /* Animaciones */
@@ -421,10 +444,17 @@ body img {
 } 
 .renewable-benefit-message{
     display: block;
-    color: white;
+    color: #ffffff;
     border: none;
     font-size: 1.1rem;
     font-weight: 600;
     transition: all 0.3s ease;
     text-align: center;
+    font-family: 'Questrial', sans-serif;
+    background-color: #48bb78;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    box-shadow: inset -4px -4px 12px #2f855a, inset 4px 4px 12px #68d391;
 }

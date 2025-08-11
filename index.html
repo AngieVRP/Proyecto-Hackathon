@@ -9,19 +9,20 @@
 <body>
 <style>
     body {
-        background-image: url('img/img1.jpg');
+        background-image: url('img/img2.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
 </style>
+        
     <div class="container">
         <header class="header">
             <h1> Simulador de Costos Energéticos</h1>
             <p class="subtitle">Descubre cuánto podrías ahorrar con energías renovables en el Caribe</p>
         </header>
-
         <main class="main-content">
+
             <form id="energyForm" class="calculator-form">
                 <div class="form-group">
                     <label for="municipio"> Selecciona tu municipio:</label>
@@ -43,7 +44,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="costo_actual"> Costo actual mensual (pesos):</label>
+                    <label for="costo_actual"> Costo actual mensual (COP):</label>
                     <input type="number" id="costo_actual" name="costo_actual" 
                            placeholder="Costo mensual de tu factura" min="0" step="100">
                     <small class="help-text">Si no conoces el costo, se calculará automáticamente</small>
@@ -53,38 +54,39 @@
             </form>
 
             <div id="results" class="results-container" style="display: none;">
-                <h2>📊 Resultados de tu Simulación</h2>
+                <h2>Resultados de tu Simulación</h2>
                 
                 <div class="results-grid">
-                    <div class="result-card current">
+                    <div class="result-card current" data-tooltip="" id="card-current">
                         <h3>Situación Actual</h3>
                         <div class="value" id="current-cost">$0</div>
                         <p>Costo mensual actual</p>
                     </div>
                     
-                    <div class="result-card renewable">
+                    <div class="result-card renewable" data-tooltip="" id="card-renewable">
                         <h3>Con Energías Renovables</h3>
                         <div class="value" id="renewable-cost">$0</div>
                         <p>Costo mensual estimado</p>
                     </div>
                     
-                    <div class="result-card savings">
+                    <div class="result-card savings" data-tooltip="" id="card-savings">
                         <h3>Ahorro Mensual</h3>
                         <div class="value" id="monthly-savings">$0</div>
                         <p>Ahorro estimado: <span id="savings-percentage">0%</span></p>
                     </div>
-                    <div class="result-card consumption">
+                    <div class="result-card consumption" data-tooltip="" id="card-consumption">
                         <h3>Tu Consumo</h3>
                         <div class="value" id="user-consumption">0 kWh</div>
                         <p>Consumo mensual estimado</p>
                     </div>
-                    <div class="result-card kwh-saved">
+                    <div class="result-card kwh-saved" data-tooltip="" id="card-kwh-saved">
                         <h3>kWh Ahorrados</h3>
                         <div class="value" id="kwh-saved">0 kWh</div>
                         <p>Ahorro mensual estimado</p>
                     </div>
+                    <section class="renewable-benefit-message" id="benefit-message"></section>
                 </div>
-
+                <div id="math-tooltip" class="math-tooltip" style="display:none;"></div>
                 <div class="annual-projection">
                     <h3> Proyección Anual</h3>
                     <div class="annual-stats">
@@ -102,10 +104,9 @@
 
             </div>
         </main>
-        <section class="renewable-benefit-message" id="benefit-message">
-    </section>
+
         <footer class="footer">
-            <p>💚 Contribuyendo a un Caribe más sostenible y con menores costos energéticos</p>
+            <p>&copy; GreeenCoders 2025. Contribuyendo a un Caribe más sostenible y con menores costos energéticos</p>
         </footer>
     </div>
     
