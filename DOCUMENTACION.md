@@ -17,13 +17,14 @@ Reducir las tarifas de energía y concientizar a la población sobre los benefic
 
 ```
 Proyecto-Hackathon/
+├── .git/                    # Control de versiones Git
 ├── css/
-│   └── style.css            # Estilos y diseño visual con efectos avanzados
+│   └── style.css            # Estilos avanzados con tooltips matemáticos
 ├── img/
-│   └── img1.jpg             # Recursos visuales del proyecto
+│   └── img2.png             # Imagen de fondo del proyecto
 ├── js/
-│   └── calculator.js        # Lógica completa de cálculos y UX
-├── index.html               # Página principal integrada con calculadora
+│   └── calculator.js        # Lógica completa con docstrings y tooltips
+├── index.html               # Página única con diseño personalizado
 └── DOCUMENTACION.md         # Este archivo de documentación
 ```
 
@@ -50,14 +51,16 @@ Proyecto-Hackathon/
 - **Situación Actual**: Costo mensual actual
 - **Con Energías Renovables**: Costo mensual estimado
 - **Ahorro Mensual**: Diferencia económica y porcentaje
-- **Tu Consumo**: kWh mensuales utilizados (nuevo)
-- **kWh Ahorrados**: Energía que se dejaría de consumir de la red (nuevo)
+- **Tu Consumo**: kWh mensuales utilizados
+- **kWh Ahorrados**: Energía que se dejaría de consumir de la red
 - **Proyección Anual**: Ahorro económico anualizado
+- **Tooltips matemáticos**: Ventanas emergentes al estilo Symbolab que muestran el proceso de cálculo
+
 ### 5. **Información Educativa**
 - Datos detallados del municipio seleccionado
 - **Mensajes aleatorios dinámicos** sobre beneficios de energías renovables
-- Información sobre impacto ambiental estimado
-- **Sección de beneficios**: Se muestra solo después de calcular
+- **Sección de beneficios**: Se muestra integrada en la grilla de resultados
+- **Branding**: Footer personalizado con derechos de autor "GreenCoders 2025"
 
 ## 💻 Tecnologías Utilizadas
 
@@ -114,28 +117,17 @@ costoConRenovables = costoActual - ahorroMensual
 // Proyección anual
 ahorroAnual = ahorroMensual * 12
 
-// Impacto ambiental (estimación)
-kwhAhorrados = (consumoFinal * porcentajeAhorro) / 100
-co2Reducido = kwhAhorrados * 0.5 * 12 // kg CO₂ por año
-```
-
 ## 🎨 Características de UX/UI
 
-### Diseño Visual:
-- **Gradientes modernos**: Fondo con degradado púrpura-azul
+### Diseño Visual Actualizado:
+- **Imagen de fondo personalizada**: `img2.png` como fondo principal
+- **Gradientes modernos**: Fondo con degradado púrpura-azul complementario
 - **Glassmorphism**: Efectos de cristal con transparencias y blur
 - **Paleta de colores**: Verde (renovables), azul (información), rojo (situación actual)
 - **Tarjetas diferenciadas**: Cada tipo de resultado tiene bordes de colores específicos
-- **Tipografía moderna**: Segoe UI con diferentes pesos y tamaños
-- **Recursos visuales**: Carpeta `img/` con elementos gráficos de apoyo
+- **Tipografía personalizada**: Fuentes Bebas Neue y Questrial para branding
+- **Interfaz única**: Página consolidada sin navegación entre archivos
 
-### Interactividad Avanzada:
-- **Efectos hover sofisticados**: Elevación y escalado en tarjetas
-- **Transiciones fluidas**: Animaciones CSS con easing natural
-- **Estados visuales claros**: Campos deshabilitados con clase `.input-disabled`
-- **Feedback inmediato**: Placeholders dinámicos con valores calculados
-- **Scroll automático**: Navegación suave a resultados
-- **Validación visual**: Estados de error con colores y mensajes claros
 
 ### Características Técnicas del CSS:
 - **Grid Layout responsivo**: Adaptación automática a diferentes pantallas
@@ -143,6 +135,7 @@ co2Reducido = kwhAhorrados * 0.5 * 12 // kg CO₂ por año
 - **Loading states**: Botón con spinner animado durante procesamiento
 - **Backdrop filters**: Efectos de desenfoque en elementos flotantes
 - **Box shadows múltiples**: Profundidad visual en capas
+- **Tooltips interactivos**: Sistema de ayuda matemática integrado
 
 ### Accesibilidad:
 - **Labels descriptivos**: Cada campo tiene instrucciones claras
@@ -153,14 +146,15 @@ co2Reducido = kwhAhorrados * 0.5 * 12 // kg CO₂ por año
 ## 📱 Experiencia de Usuario
 
 ### Flujo Típico Actualizado:
-1. **Llegada**: Usuario accede a la página integrada con diseño moderno
+1. **Llegada**: Usuario accede a la página con imagen de fondo personalizada
 2. **Selección**: Elige su municipio (placeholder se actualiza automáticamente)
-3. **Input exclusivo**: Ingresa **solo** consumo mensual O costo de factura
+3. **Input exclusivo**: Ingresa **solo** consumo mensual O costo de factura (COP)
 4. **Feedback visual**: Ve el campo contrario deshabilitado con valor estimado
 5. **Cálculo**: Presiona "Calcular Ahorro" con animación de loading
 6. **Resultados**: Obtiene simulación en 5 tarjetas diferenciadas por colores
-7. **Educación**: Aparece mensaje motivacional aleatorio sobre energías renovables
-8. **Exploración**: Puede revisar información detallada del municipio
+7. **Exploración matemática**: Puede ver tooltips con procesos de cálculo al pasar el cursor
+8. **Educación**: Ve mensaje motivacional sobre energías renovables integrado
+9. **Información detallada**: Revisa datos específicos del municipio seleccionado
 
 ### Prevención de Errores Mejorada:
 - **Exclusión mutua estricta**: Solo un campo activo, el otro se limpia automáticamente
@@ -169,11 +163,17 @@ co2Reducido = kwhAhorrados * 0.5 * 12 // kg CO₂ por año
 - **Limpieza automática** de campos deshabilitados
 - **Placeholders dinámicos** que muestran valores estimados en tiempo real
 - **Estados visuales claros** con clase `.input-disabled`
+- **Tooltips educativos** para entender los cálculos
 
 ## 🔄 Funciones Principales del Código
 
+### `showBenefitMessage()` - Educación Dinámica
+- Selecciona mensaje aleatorio de array de beneficios
+- Se ejecuta **solo después** de presionar "Calcular Ahorro"
+- Estilizado con clase `.renewable-benefit-message`
+
 ### `getFormData()` - Extracción Inteligente
-- Extrae datos del formulario
+- Extrae datos del formulario con validación
 - **Calcula consumo estimado** cuando solo hay costo ingresado
 - **Calcula costo estimado** cuando solo hay consumo ingresado
 - Retorna objeto con todos los valores necesarios para cálculos
@@ -182,21 +182,20 @@ co2Reducido = kwhAhorrados * 0.5 * 12 // kg CO₂ por año
 - Prioriza datos ingresados por usuario sobre promedios
 - Utiliza **consumo estimado** si el usuario ingresó solo costo
 - Aplica fórmulas específicas por municipio
+- Calcula kWh ahorrados para tooltips
 
-### `displayResults()` - Actualización Visual
+### `displayResults()` - Actualización Visual y Tooltips
 - Actualiza **5 tarjetas de resultados** diferenciadas
 - Formatea valores monetarios en pesos colombianos
-- Muestra consumo real vs. estimado
+- **Configura tooltips matemáticos** con procesos de cálculo detallados
+- Maneja eventos de hover para mostrar/ocultar explicaciones
+- Renderiza información municipal detallada
 
-### `showBenefitMessage()` - Educación Dinámica
-- Selecciona mensaje aleatorio de array de beneficios
-- Se ejecuta **solo después** de presionar "Calcular Ahorro"
-- Estilizado con clase `.renewable-benefit-message`
-
-### Eventos de Input 
+### Eventos de Input Avanzados
 - **Exclusión mutua**: Deshabilita campo opuesto al escribir
 - **Limpieza automática**: Borra contenido del campo deshabilitado
-- **Placeholders dinámicos**: Muestra valores estimados
+- **Placeholders dinámicos**: Muestra valores estimados en tiempo real
+
 
 ## 🌱 Impacto Social
 
@@ -214,4 +213,9 @@ co2Reducido = kwhAhorrados * 0.5 * 12 // kg CO₂ por año
 
 ---
 
-*💚 Contribuyendo a un Caribe más sostenible y con menores costos energéticos*
+**Desarrollado por**: GreenCoders 2025  
+**Enfoque**: Simulador educativo de costos energéticos  
+**Región**: Caribe Colombiano  
+
+
+*© GreenCoders 2025. Contribuyendo a un Caribe más sostenible y con menores costos energéticos*
