@@ -163,24 +163,35 @@ function validateForm() {
 // Obtener datos del formulario
 function getFormData() {
     const municipio = document.getElementById('municipio').value;
-    const consumoActual = parseFloat(document.getElementById('consumo_actual').value) || null;
-    const costoActual = parseFloat(document.getElementById('costo_actual').value) || null;
-    
+    const consumoInput = document.getElementById('consumo_actual');
+    const costoInput = document.getElementById('costo_actual');
+    const consumoActual = parseFloat(consumoInput.value) || null;
+    const costoActual = parseFloat(costoInput.value) || null;
+    let consumoEstimado = null;
+    if (!consumoActual && costoActual && municipio && municipiosData[municipio]) {
+        // Si solo hay costo, calcular consumo estimado
+        consumoEstimado = costoActual / municipiosData[municipio].tarifa_kwh;
+    }
     return {
         municipio: municipio,
         municipioData: municipiosData[municipio],
         consumoActual: consumoActual,
-        costoActual: costoActual
+        costoActual: costoActual,
+        consumoEstimado: consumoEstimado
     };
 }
 
 // Calcular ahorros
 function calculateSavings(formData) {
-    const { municipioData, consumoActual, costoActual } = formData;
-    
-    // Determinar consumo a usar (ingresado por usuario o promedio del municipio)
-    const consumoFinal = consumoActual || municipioData.consumo_promedio_kwh;
-    
+    const { municipioData, consumoActual, costoActual, consumoEstimado } = formData;
+    // Determinar consumo a usar (ingresado por usuario, estimado por costo, o promedio del municipio)
+    let consumoFinal = consumoActual;
+    if (!consumoFinal && consumoEstimado) {
+        consumoFinal = consumoEstimado;
+    } else if (!consumoFinal) {
+        consumoFinal = municipioData.consumo_promedio_kwh;
+    }
+
     // Determinar costo actual
     let costoActualFinal;
     if (costoActual) {
@@ -192,19 +203,19 @@ function calculateSavings(formData) {
         // Usar costo promedio del municipio
         costoActualFinal = municipioData.costo_actual_pesos;
     }
-    
+
     // Calcular ahorro
     const porcentajeAhorro = municipioData.ahorro_estimado_porcentaje;
     const ahorroMensual = (costoActualFinal * porcentajeAhorro) / 100;
     const costoConRenovables = costoActualFinal - ahorroMensual;
-    
+
     // Proyección anual
     const ahorroAnual = ahorroMensual * 12;
-    
+
     // Calcular reducción de CO2 (estimación: 0.5 kg CO2 por kWh ahorrado)
     const kwhAhorrados = (consumoFinal * porcentajeAhorro) / 100;
     const co2Reducido = kwhAhorrados * 0.5 * 12; // kg CO2 por año
-    
+
     return {
         consumoFinal: consumoFinal,
         costoActual: costoActualFinal,
